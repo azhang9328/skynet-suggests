@@ -163,7 +163,7 @@ DEPENDENCIES
   bootsnap (>= 1.4.2)
   byebug
   listen (>= 3.0.5, < 3.2)
-  pg (>= 0.18, < 2.0)
+  pg
   puma (~> 4.1)
   rack-cors
   rails (~> 6.0.2, >= 6.0.2.1)
@@ -175,4 +175,4 @@ RUBY VERSION
    ruby 2.6.5p114
 
 BUNDLED WITH
-   2.0.2
+   2.1.4
