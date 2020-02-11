@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 2020_02_11_011711) do
   create_table "repos", force: :cascade do |t|
     t.string "nickname"
     t.string "url"
+    t.boolean "analyzed"
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
