@@ -1,7 +1,7 @@
 
 document.addEventListener("DOMContentLoaded", function(){
     userSignUpForm();
-    renderRepos();
+    
 })
 
 function userLoginForm(){
@@ -66,43 +66,55 @@ function showRepo(repo) {
     div.appendChild(p)
     div.appendChild(u)
     div.appendChild(button)
-    analyzedRepositories.appendChild(div)
+
+    if (repo.analyzed) {
+        analyzedRepositories.appendChild(div)
+    } else {
+        unanalyzedRepositories.appendChild(div)
+    }
 }
 
 function newRepoForm(){
 
     let main = document.getElementById("main")
 
-    let div = document.createElement("div")
-    div.className = "card"
+    let form = document.createElement("form")
+    // div.className = "card"
 
-    div.innerHTML = "";
+    // div.innerHTML = "";
 
     let nickname = document.createElement("p")
     nickname.textContent = "Enter the nickname of your repository"
 
     let nicknameInput = document.createElement("input")
     nicknameInput.type = "text";
+    nicknameInput.name = "nickname";
     
     let p = document.createElement("p")
     p.textContent = "Enter the Url of your repository"
 
     let input = document.createElement("input")
     input.type = "text";
+    input.name = "url"
 
     let button = document.createElement("button")
     button.textContent = "Submit Repository"
-    button.addEventListener("click", () => {
-        addRepository()
+
+    form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        console.log(event.target.nickname.value)
+        let repo = {nickname: event.target.nickname.value, url: event.target.url.value, analyzed: false}
+        // let repo = {nickname:}
+        addRepository(repo)
     })
     
 
-    div.appendChild(nickname)
-    div.appendChild(nicknameInput)
-    div.appendChild(p)
-    div.appendChild(input)
-    div.appendChild(button)
-    main.appendChild(div)
+    form.appendChild(nickname)
+    form.appendChild(nicknameInput)
+    form.appendChild(p)
+    form.appendChild(input)
+    form.appendChild(button)
+    main.appendChild(form)
 }
 
 let button = document.getElementById("new-repo-form-button")
