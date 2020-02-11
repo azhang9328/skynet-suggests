@@ -29,7 +29,7 @@ function usersCheck(data, user){
   let userExists = data.find(u => {
     return u.name == user.name
   })
-  if(userExists.name){
+  if(userExists){
     currentUser = user
     h3.innerText = currentUser.name
   } else {
