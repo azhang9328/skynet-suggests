@@ -1,0 +1,12 @@
+[
+	{
+		"path": "$ROOTPATH$/skynet-suggests-backend/db/schema.rb",
+		"bookmarks": [
+			{
+				"line": 17,
+				"column": 2,
+				"label": "schema"
+			}
+		]
+	}
+]

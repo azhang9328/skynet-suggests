@@ -29,8 +29,9 @@ function usersCheck(data, user){
     return u.name == user.name
   })
   if(userExists){
-    currentUser = user
+    currentUser = userExists
     h3.innerText = currentUser.name
+    renderRepos(currentUser)
   } else {
     alert("No Such User, Try Again!")
   }
@@ -57,15 +58,8 @@ function persistUser(user){
   .catch(err => console.log(err))
 }
 
-function getRepos() {
-    fetch('http://localhost:3000/repos/')
-    .then(res => res.json())
-    .then(repos => renderRepos(repos))
-    .catch(err => console.log(err))
-}
-
-function renderRepos(repos) {
-    repos.forEach(repo => {
+function renderRepos(user) {
+    user.repos.forEach(repo => {
         showRepo(repo)
     });
 }
@@ -84,16 +78,17 @@ function showRepo(repo) {
     u.textContent = repo.url
 
     let button = document.createElement("button")
-    button.textContent = "See Analysis"
-
+    
     div.appendChild(p)
     div.appendChild(u)
     div.appendChild(button)
 
     if (repo.analyzed) {
         analyzedRepositories.appendChild(div)
+        button.textContent = "See Analysis"
     } else {
         unanalyzedRepositories.appendChild(div)
+        button.textContent = "Analyze Repo"
     }
 }
 
