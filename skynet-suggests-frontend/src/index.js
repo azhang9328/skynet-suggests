@@ -1,8 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
-  userSignUp()
+  userSignUpForm()
 })
 
-function userSignUp(){
+function userLoginForm(){
+  let login = document.getElementById("user-login")
+  login.addEventListener("submit", (event) => {
+    event.preventDefault()
+    let user = {name: event.target.name.value}
+
+  })
+}
+
+function userSignUpForm(){
   let signUp = document.getElementById("user-sign-up")
   signUp.addEventListener("submit", (event) => {
     event.preventDefault()
