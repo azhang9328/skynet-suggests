@@ -3,11 +3,24 @@ document.addEventListener("DOMContentLoaded", () => {
 })
 
 function userSignUp(){
-  let signUp = document.getElementById("user-login")
+  let signUp = document.getElementById("user-sign-up")
   signUp.addEventListener("submit", (event) => {
     event.preventDefault()
-    console.log(event.target.name.value)
+    let user = {name: event.target.name.value}
+    persistUser(user)
   })
+}
+
+function persistUser(user){
+  fetch('http://localhost:3000/users/', {
+    method: 'POST',
+    headers: {"Content-Type": "application/json",
+              Accept: "application/json"
+            },
+    body: JSON.stringify(user)         
+  })
+  .then(res => console.log(res))
+  .catch(err => console.log(err))
 }
 
 function getRepos() {
