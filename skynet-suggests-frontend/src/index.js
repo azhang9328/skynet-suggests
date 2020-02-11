@@ -69,7 +69,7 @@ function showRepo(repo) {
     let analyzedRepositories = document.getElementById("analyzed-repositories")
     let unanalyzedRepositories = document.getElementById("unanalyzed-repositories")
 
-    let div = document.createElement("div")
+    let repoDiv = document.createElement("div")
 
     let p = document.createElement("p")
     p.textContent = repo.nickname
@@ -78,16 +78,23 @@ function showRepo(repo) {
     u.textContent = repo.url
 
     let button = document.createElement("button")
+
+    let deleteButton = document.createElement("button")
+    deleteButton.textContent = "Delete this Repository"
+    deleteButton.addEventListener("click", () => {
+        deleteRepo(repo, repoDiv);
+    })
     
-    div.appendChild(p)
-    div.appendChild(u)
-    div.appendChild(button)
+    repoDiv.appendChild(p)
+    repoDiv.appendChild(u)
+    repoDiv.appendChild(button)
+    repoDiv.appendChild(deleteButton)
 
     if (repo.analyzed) {
-        analyzedRepositories.appendChild(div)
+        analyzedRepositories.appendChild(repoDiv)
         button.textContent = "See Analysis"
     } else {
-        unanalyzedRepositories.appendChild(div)
+        unanalyzedRepositories.appendChild(repoDiv)
         button.textContent = "Analyze Repo"
     }
 }
@@ -154,6 +161,14 @@ function addRepository(repo) {
       .catch(err => console.log(err))
 } 
 
+function deleteRepo(repo, repoDiv) {
+    fetch(`http://localhost:3000/repos/${repo.id}`, {
+        method: "DELETE"
+    })
+    .then(res => {
+        repoDiv.remove()
+    })
+} 
 
 let button = document.getElementById("new-repo-form-button")
 button.textContent = "Add a Repository"
