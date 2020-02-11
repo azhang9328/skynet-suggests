@@ -1,5 +1,7 @@
-document.addEventListener("DOMContentLoaded", () => {
-  userSignUpForm()
+
+document.addEventListener("DOMContentLoaded", function(){
+    userSignUpForm();
+    renderRepos();
 })
 
 function userLoginForm(){
@@ -35,8 +37,36 @@ function persistUser(user){
 function getRepos() {
     fetch('http://localhost:3000/repos/')
     .then(res => res.json())
-    .then(data => showRepos(data))
+    .then(repos => renderRepos(repos))
     .catch(err => console.log(err))
+}
+
+function renderRepos(repos) {
+    repos.forEach(repo => {
+        showRepo(repo)
+    });
+}
+
+
+function showRepo(repo) {
+    let analyzedRepositories = document.getElementById("analyzed-repositories")
+    let unanalyzedRepositories = document.getElementById("unanalyzed-repositories")
+
+    let div = document.createElement("div")
+
+    let p = document.createElement("p")
+    p.textContent = repo.nickname
+    
+    let u = document.createElement("p")
+    u.textContent = repo.url
+
+    let button = document.createElement("button")
+    button.textContent = "See Analysis"
+
+    div.appendChild(p)
+    div.appendChild(u)
+    div.appendChild(button)
+    analyzedRepositories.appendChild(div)
 }
 
 function newRepoForm(){
