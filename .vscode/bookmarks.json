@@ -1,0 +1,22 @@
+[
+	{
+		"path": "$ROOTPATH$/skynet-suggests-backend/db/schema.rb",
+		"bookmarks": [
+			{
+				"line": 21,
+				"column": 14,
+				"label": "schema"
+			}
+		]
+	},
+	{
+		"path": "$ROOTPATH$/skynet-suggests-backend/config/routes.rb",
+		"bookmarks": [
+			{
+				"line": 2,
+				"column": 6,
+				"label": "routes"
+			}
+		]
+	}
+]
