@@ -1,14 +1,39 @@
 document.addEventListener("DOMContentLoaded", () => {
   userSignUpForm()
+  userLoginForm()
 })
+
+let currentUser = null
 
 function userLoginForm(){
   let login = document.getElementById("user-login")
   login.addEventListener("submit", (event) => {
     event.preventDefault()
     let user = {name: event.target.name.value}
-
+    loginUser(user)
   })
+}
+
+function loginUser(user){
+  fetch('http://localhost:3000/users')
+  .then(res => res.json())
+  .then(data => {
+    usersCheck(data, user)
+  })
+  .catch(err => console.log(err))
+}
+
+function usersCheck(data, user){
+  let h3 = document.getElementById("current-user")
+  let userExists = data.find(u => {
+    return u.name == user.name
+  })
+  if(userExists.name){
+    currentUser = user
+    h3.innerText = currentUser.name
+  } else {
+    alert("No Such User, Try Again!")
+  }
 }
 
 function userSignUpForm(){

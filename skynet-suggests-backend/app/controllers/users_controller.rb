@@ -17,6 +17,11 @@ class UsersController < ApplicationController
         @user.destroy
     end
 
+    def index 
+        @users = User.all 
+        render json: @users
+    end
+
     private 
 
 	def find_user
