@@ -1,7 +1,38 @@
+
 document.addEventListener("DOMContentLoaded", function(){
+    userSignUpForm();
     renderRepos();
 })
 
+function userLoginForm(){
+  let login = document.getElementById("user-login")
+  login.addEventListener("submit", (event) => {
+    event.preventDefault()
+    let user = {name: event.target.name.value}
+
+  })
+}
+
+function userSignUpForm(){
+  let signUp = document.getElementById("user-sign-up")
+  signUp.addEventListener("submit", (event) => {
+    event.preventDefault()
+    let user = {name: event.target.name.value}
+    persistUser(user)
+  })
+}
+
+function persistUser(user){
+  fetch('http://localhost:3000/users/', {
+    method: 'POST',
+    headers: {"Content-Type": "application/json",
+              Accept: "application/json"
+            },
+    body: JSON.stringify(user)         
+  })
+  .then(res => console.log(res))
+  .catch(err => console.log(err))
+}
 
 function getRepos() {
     fetch('http://localhost:3000/repos/')
@@ -79,4 +110,3 @@ button.textContent = "Add a Repository"
 button.addEventListener("click", () => {
     newRepoForm()
 })
-
