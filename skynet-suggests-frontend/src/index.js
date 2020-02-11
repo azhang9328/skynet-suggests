@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   userSignUpForm()
   userLoginForm()
-  renderRepos();
 })
 
 let currentUser = null
@@ -140,6 +139,8 @@ function newRepoForm(){
     form.appendChild(button)
     main.appendChild(form)
 }
+
+function addRepository(repo)
 
 let button = document.getElementById("new-repo-form-button")
 button.textContent = "Add a Repository"
