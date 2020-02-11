@@ -121,7 +121,7 @@ function newRepoForm(){
     form.addEventListener("submit", (event) => {
         event.preventDefault();
         console.log(event.target.nickname.value)
-        let repo = {nickname: event.target.nickname.value, url: event.target.url.value, analyzed: false}
+        let repo = {nickname: event.target.nickname.value, url: event.target.url.value, analyzed: false, user_id: currentUser.id}
         // let repo = {nickname:}
         addRepository(repo)
     })
@@ -135,7 +135,25 @@ function newRepoForm(){
     main.appendChild(form)
 }
 
-function addRepository(repo)
+function addRepository(repo) {
+    console.log(repo)
+    fetch('http://localhost:3000/repos/', {
+        method: 'POST',
+        headers: {"Content-Type": "application/json",
+                  Accept: "application/json"
+                },
+        body: JSON.stringify(repo)         
+      }).then(res=> res.json())
+      .then(res => {
+          console.log(res)
+          return res
+      })
+      .then(repo => {
+        showRepo(repo)
+      })
+      .catch(err => console.log(err))
+} 
+
 
 let button = document.getElementById("new-repo-form-button")
 button.textContent = "Add a Repository"

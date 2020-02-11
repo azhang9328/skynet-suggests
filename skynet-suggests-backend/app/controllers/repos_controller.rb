@@ -1,5 +1,5 @@
 class ReposController < ApplicationController
-    before_action :find_repo, only: [:show, :edit, :update, :destroy]
+    before_action :find_repo, only: [:edit, :update, :destroy]
 
     def show
         render json: @repo
@@ -10,7 +10,8 @@ class ReposController < ApplicationController
     end
 
     def create 
-        @repo = Repo.create(name: params[:name])
+        @repo = Repo.create(repo_params)
+        render json: @repo
     end
 
     def destroy 
@@ -26,5 +27,9 @@ class ReposController < ApplicationController
 
 	def find_repo
 		@repo = Repo.find(params[:id])
-	end
+    end
+    
+     def repo_params
+         params.require(:repo).permit(:nickname, :url, :analyzed, :user_id)
+     end
 end
