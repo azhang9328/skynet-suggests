@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 2020_02_11_011711) do
     t.integer "marker"
     t.string "rows"
     t.string "cols"
-    t.string "type"
+    t.string "dp_id"
     t.string "message"
     t.integer "severity"
     t.bigint "repo_id", null: false

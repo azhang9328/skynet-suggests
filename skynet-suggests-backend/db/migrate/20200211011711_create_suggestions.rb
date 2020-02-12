@@ -5,7 +5,7 @@ class CreateSuggestions < ActiveRecord::Migration[6.0]
       t.integer :marker
       t.string :rows
       t.string :cols
-      t.string :type
+      t.string :dp_id
       t.string :message
       t.integer :severity
       t.references :repo, null: false, foreign_key: true
