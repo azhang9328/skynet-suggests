@@ -8,7 +8,10 @@
   <body>
     <header>
       <h2>Skynet Suggests</h2>
-      <h3 id="current-user"></h3>
+      <div id="user-div" class="user-div">
+        <h3 id="current-user"> </h3> 
+        <button type="button" id="edit-user-button">Edit User</button>
+      </div>
     </header>
       <div>
         <form id="user-sign-up">
@@ -23,9 +26,11 @@
 
     <main id="main">
         <div class="row">
-            <div id="analyzed-repositories" class="column"> analyzed-repositories</div>
+            <div> 
+                <div id="analyzed-repositories" class="column"> analyzed-repositories</div>
+            </div>
             <div id="unanalyzed-repositories" class="column"> unanalyzed-repositories</div>
-          </div>
+        </div>
     </main>
 
     

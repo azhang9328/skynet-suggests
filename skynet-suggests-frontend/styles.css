@@ -17,3 +17,14 @@
     padding: 10px;
     text-align: center;
   }
+
+  .card {
+      color: black;
+      outline: darkslategray;
+      border-style: solid;
+      border-color: midnightblue;
+      border-radius: 5px;
+
+      outline-width: 5px;
+      background-color: lightblue;
+  }
