@@ -22,9 +22,19 @@ class UsersController < ApplicationController
         render json: @users
     end
 
+    def update
+        @user.update(user_params)
+        render json: @user
+    end
+
     private 
 
 	def find_user
 		@user = User.find(params[:id])
-	end
+    end
+
+    def user_params
+        params.require(:user).permit(:name)
+    end
+    
 end
