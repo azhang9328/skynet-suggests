@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
 })
 
 let currentUser = null
+let analyzedRepositories = document.getElementById("analyzed-repositories")
+let unanalyzedRepositories = document.getElementById("unanalyzed-repositories")
 
 function userLoginForm(){
   let login = document.getElementById("user-login")
@@ -76,9 +78,6 @@ function renderRepos(user) {
 
 
 function showRepo(repo) {
-    let analyzedRepositories = document.getElementById("analyzed-repositories")
-    let unanalyzedRepositories = document.getElementById("unanalyzed-repositories")
-
     let repoDiv = document.createElement("div")
     repoDiv.className = "card"
 
@@ -116,6 +115,7 @@ function showRepo(repo) {
     u.textContent = repo.url
 
     let button = document.createElement("button")
+    button.className = "analyze-button"
 
     let deleteButton = document.createElement("button")
     deleteButton.textContent = "Delete this Repository"
@@ -129,25 +129,30 @@ function showRepo(repo) {
     repoDiv.appendChild(button)
     repoDiv.appendChild(deleteButton)
 
-    if (repo.analyzed) {
-        analyzedRepositories.prepend(repoDiv) 
-        button.textContent = "See Analysis"
-    } else {
-        unanalyzedRepositories.prepend(repoDiv)
-        button.textContent = "Analyze Repo"
-    }
+    analyzeButtonTextAndFunc(repo, repoDiv)
 }
 
+function analyzeButtonTextAndFunc(repo, repoDiv){
+  let button = repoDiv.getElementsByClassName("analyze-button")[0]
+    if (repo.analyzed) {
+      analyzedRepositories.prependChild(repoDiv)
+      button.textContent = "See Analysis"
+  } else {
+      unanalyzedRepositories.prependChild(repoDiv)
+      button.textContent = "Analyze Repo"
+      button.addEventListener("click", ()=>{
+        analyzeRepo(repo, repoDiv)
+      })
+  }
+}
 
-
-function analyzeRepo(repo){
-  fetch('https://www.deepcode.ai/publicapi/bundle', {
-    method: 'POST',
-    headers: {"Content-Type": "application/json",
-              Accept: "application/json",
-  },
+function analyzeRepo(repo, repoDiv){
+  fetch(`http://localhost:3000/repos/${repo.id}/analysis`)
+  .then(res => res.json())
+  .then(data => {
+    repo = data
+    analyzeButtonTextAndFunc(repo, repoDiv)
   })
-  .then(res => console.log(res))
   .catch(err => console.log(err))
 }
 

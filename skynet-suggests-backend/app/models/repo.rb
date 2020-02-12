@@ -48,6 +48,8 @@ class Repo < ApplicationRecord
         #fill in other half of suggestion with data from suggestions and set marker to nil
       end
     end
+
+    self.update(analyzed: true)
   end 
 end
 
