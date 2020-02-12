@@ -23,13 +23,18 @@ class ReposController < ApplicationController
         render json: @repos
     end
 
+    def update
+        @repo.update(repo_params)
+        render json: @repo
+    end
+
     private 
 
 	def find_repo
 		@repo = Repo.find(params[:id])
     end
     
-     def repo_params
-         params.require(:repo).permit(:nickname, :url, :analyzed, :user_id)
-     end
+    def repo_params
+        params.require(:repo).permit(:nickname, :url, :analyzed, :user_id)
+    end
 end
