@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("user-div").style.display="none";
   userSignUpForm()
   userLoginForm()
 })
@@ -32,11 +33,20 @@ function usersCheck(data, user){
   })
   if(userExists){
     currentUser = userExists
-    h3.innerText = currentUser.name
+    // h3.innerText = currentUser.name
+    // let editUser = document.createElement("button")
+    // editUser.textContent = "Edit User"
+    // h3.appendChild(editUser)
+    displayUserName();
+    document.getElementById("user-div").style.display="inline";
     renderRepos(currentUser)
   } else {
     alert("No Such User, Try Again!")
   }
+}
+
+function displayUserName (editedUser = currentUser) {
+    document.getElementById("current-user").innerText = editedUser.name
 }
 
 function userSignUpForm(){
@@ -69,6 +79,7 @@ function renderRepos(user) {
 
 function showRepo(repo) {
     let repoDiv = document.createElement("div")
+    repoDiv.className = "card"
 
     let p = document.createElement("p")
     p.textContent = repo.nickname
@@ -95,7 +106,8 @@ function showRepo(repo) {
             const value = document.getElementById("edit").value
             // let repo = {nickname: event.target.value}
             // let repo = {nickname:}
-            editRepoName(repo, value)
+            editRepoName(repo, value);
+            repoDiv.remove();
         })
     })
     
@@ -123,10 +135,10 @@ function showRepo(repo) {
 function analyzeButtonTextAndFunc(repo, repoDiv){
   let button = repoDiv.getElementsByClassName("analyze-button")[0]
     if (repo.analyzed) {
-      analyzedRepositories.appendChild(repoDiv)
+      analyzedRepositories.prependChild(repoDiv)
       button.textContent = "See Analysis"
   } else {
-      unanalyzedRepositories.appendChild(repoDiv)
+      unanalyzedRepositories.prependChild(repoDiv)
       button.textContent = "Analyze Repo"
       button.addEventListener("click", ()=>{
         analyzeRepo(repo, repoDiv)
@@ -176,6 +188,7 @@ function newRepoForm(){
         let repo = {nickname: event.target.nickname.value, url: event.target.url.value, analyzed: false, user_id: currentUser.id}
         // let repo = {nickname:}
         addRepository(repo)
+        form.remove();
     })
     
 
@@ -215,7 +228,16 @@ function deleteRepo(repo, repoDiv) {
     })
 } 
 
-function editRepoName (repo, value) {
+function deleteUser(currentUser) {
+    fetch(`http://localhost:3000/users/${currentUser.id}`, {
+        method: "DELETE"
+    })
+    // .then(res => {
+    //     currentUser.remove()
+    // })
+}
+
+function editRepoName (repo, value, repoDiv) {
     // book.users.push(userName)
     fetch(`http://localhost:3000/repos/${repo.id}`, {
     method: "PATCH",
@@ -229,10 +251,73 @@ function editRepoName (repo, value) {
     // .then(res => console.log(res))
     .then(updatedRepo => showRepo(updatedRepo))
     .catch(error => console.log(error))
+
 }
+
+ function editUser(currentUser, value) {
+    fetch(`http://localhost:3000/users/${currentUser.id}`, {
+    method: "PATCH",
+    headers: {
+    "Content-Type": "application/json",
+    Accept: "application/json"
+    },
+    body: JSON.stringify({name: value})
+    })
+    .then(res => res.json())
+    .then(res => {
+        console.log(`${currentUser.name} before update`)
+        console.log(`${res.name} returned result from db`)
+        editedUser = res 
+        console.log(`${editedUser.name} after update`)
+        displayUserName(editedUser)
+    })
+    .catch(error => console.log(error))
+    
+ }
 
 let button = document.getElementById("new-repo-form-button")
 button.textContent = "Add a Repository"
 button.addEventListener("click", () => {
     newRepoForm()
 })
+
+let editUserButton = document.getElementById("edit-user-button")
+editUserButton.addEventListener("click", () => {
+    manageUserForm();
+})
+
+function manageUserForm() {
+    let form = document.createElement("form")
+    form.innerHTML = ""
+    let pleaseEditName = document.createElement("p")
+    pleaseEditName.textContent = "Please enter your new username"
+
+    let editNameInput = document.createElement("input")
+    editNameInput.type = "text"
+    editNameInput.name = "name"
+    editNameInput.id = "edit-name-input"
+    editNameInput.value = currentUser.name
+
+    let submitButton = document.createElement("button")
+    submitButton.textContent = "Submit Changes"
+
+    form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const value = document.getElementById("edit-name-input").value
+        editUser(currentUser, value)
+        form.remove();
+    })
+
+    let deleteButton = document.createElement("button")
+    deleteButton.textContent = "Delete this user"
+
+    deleteButton.addEventListener("click", () => {
+        deleteUser(currentUser);
+    })
+
+    form.appendChild(pleaseEditName)
+    form.appendChild(editNameInput)
+    form.appendChild(submitButton)
+    form.appendChild(deleteButton)
+    document.getElementById("user-div").appendChild(form)
+}
