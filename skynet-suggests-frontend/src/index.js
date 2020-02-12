@@ -78,7 +78,10 @@ function showRepo(repo) {
     u.textContent = repo.url
 
     let button = document.createElement("button")
-    
+    button.addEventListener("click", ()=>{
+      analyzeRepo(repo)
+    })
+
     div.appendChild(p)
     div.appendChild(u)
     div.appendChild(button)
@@ -90,6 +93,17 @@ function showRepo(repo) {
         unanalyzedRepositories.appendChild(div)
         button.textContent = "Analyze Repo"
     }
+}
+
+function analyzeRepo(repo){
+  fetch('https://www.deepcode.ai/publicapi/bundle', {
+    method: 'POST',
+    headers: {"Content-Type": "application/json",
+              Accept: "application/json",
+  },
+  })
+  .then(res => console.log(res))
+  .catch(err => console.log(err))
 }
 
 function newRepoForm(){

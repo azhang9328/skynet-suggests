@@ -1,5 +1,13 @@
 class ReposController < ApplicationController
-    before_action :find_repo, only: [:show, :edit, :update, :destroy]
+    before_action :find_repo, only: [:show, :edit, :update, :destroy, :analysis]
+
+    def analysis
+        if !@repo.bundle_id
+            @repo.bundle
+        else 
+            @repo.analysis_status
+        end
+    end
 
     def show
         render json: @repo
