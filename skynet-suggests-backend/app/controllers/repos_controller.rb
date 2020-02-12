@@ -1,5 +1,15 @@
 class ReposController < ApplicationController
-    before_action :find_repo, only: [:edit, :update, :destroy]
+    before_action :find_repo, only: [:show, :edit, :update, :destroy, :analysis]
+
+    def analysis
+        if !@repo.bundle_id
+            @repo.bundle
+            render json: {message: "bundle created"}
+        else 
+            @repo.analysis_status
+            render json: @repo
+        end
+    end
 
     def show
         render json: @repo
@@ -22,7 +32,6 @@ class ReposController < ApplicationController
         @repos = Repo.all 
         render json: @repos
     end
-
     def update
         @repo.update(repo_params)
         render json: @repo
@@ -33,7 +42,6 @@ class ReposController < ApplicationController
 	def find_repo
 		@repo = Repo.find(params[:id])
     end
-    
     def repo_params
         params.require(:repo).permit(:nickname, :url, :analyzed, :user_id)
     end
