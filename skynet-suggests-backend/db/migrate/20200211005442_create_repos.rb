@@ -3,7 +3,8 @@ class CreateRepos < ActiveRecord::Migration[6.0]
     create_table :repos do |t|
       t.string :nickname
       t.string :url
-      t.boolean :analyzed
+      t.boolean :analyzed, default: false
+      t.string :bundle_id, default: nil
       t.references :user, null: false, foreign_key: true
 
       t.timestamps

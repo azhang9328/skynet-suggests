@@ -4,8 +4,18 @@
 		"bookmarks": [
 			{
 				"line": 17,
-				"column": 2,
+				"column": 3,
 				"label": "schema"
+			}
+		]
+	},
+	{
+		"path": "$ROOTPATH$/skynet-suggests-backend/config/routes.rb",
+		"bookmarks": [
+			{
+				"line": 3,
+				"column": 4,
+				"label": "routes"
 			}
 		]
 	}

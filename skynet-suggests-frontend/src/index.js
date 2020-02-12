@@ -126,6 +126,17 @@ function showRepo(repo) {
     }
 }
 
+function analyzeRepo(repo){
+  fetch('https://www.deepcode.ai/publicapi/bundle', {
+    method: 'POST',
+    headers: {"Content-Type": "application/json",
+              Accept: "application/json",
+  },
+  })
+  .then(res => console.log(res))
+  .catch(err => console.log(err))
+}
+
 function newRepoForm(){
 
     let main = document.getElementById("main")
