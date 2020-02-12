@@ -73,6 +73,32 @@ function showRepo(repo) {
 
     let p = document.createElement("p")
     p.textContent = repo.nickname
+
+    let editButton = document.createElement("button")
+    editButton.textContent = "Change Repository Nickname"
+    editButton.addEventListener("click", () => {
+        // p.style.display = 'none'
+        let editInput = document.createElement("input")
+        editInput.type = "text";
+        editInput.id = "edit"
+        editInput.name = "nickname";
+        editInput.value = repo.nickname
+        p.parentNode.insertBefore(editInput, p.nextSibling);
+        p.parentNode.removeChild(p);
+
+        let submitEdit = document.createElement("button")
+        submitEdit.textContent = "Submit Name Change"
+        editButton.parentNode.insertBefore(submitEdit, editButton.nextSibling);
+        editButton.parentNode.removeChild(editButton)
+
+        submitEdit.addEventListener("click", (event) => {
+            event.preventDefault();
+            const value = document.getElementById("edit").value
+            // let repo = {nickname: event.target.value}
+            // let repo = {nickname:}
+            editRepoName(repo, value)
+        })
+    })
     
     let u = document.createElement("p")
     u.textContent = repo.url
@@ -86,6 +112,7 @@ function showRepo(repo) {
     })
     
     repoDiv.appendChild(p)
+    repoDiv.appendChild(editButton)
     repoDiv.appendChild(u)
     repoDiv.appendChild(button)
     repoDiv.appendChild(deleteButton)
@@ -180,6 +207,22 @@ function deleteRepo(repo, repoDiv) {
         repoDiv.remove()
     })
 } 
+
+function editRepoName (repo, value) {
+    // book.users.push(userName)
+    fetch(`http://localhost:3000/repos/${repo.id}`, {
+    method: "PATCH",
+    headers: {
+    "Content-Type": "application/json",
+    Accept: "application/json"
+    },
+    body: JSON.stringify({nickname: value})
+    })
+    .then(res => res.json())
+    // .then(res => console.log(res))
+    .then(updatedRepo => showRepo(updatedRepo))
+    .catch(error => console.log(error))
+}
 
 let button = document.getElementById("new-repo-form-button")
 button.textContent = "Add a Repository"
