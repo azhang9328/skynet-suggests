@@ -135,10 +135,10 @@ function showRepo(repo) {
 function analyzeButtonTextAndFunc(repo, repoDiv){
   let button = repoDiv.getElementsByClassName("analyze-button")[0]
     if (repo.analyzed) {
-      analyzedRepositories.prependChild(repoDiv)
+      analyzedRepositories.appendChild(repoDiv)
       button.textContent = "See Analysis"
   } else {
-      unanalyzedRepositories.prependChild(repoDiv)
+      unanalyzedRepositories.appendChild(repoDiv)
       button.textContent = "Analyze Repo"
       button.addEventListener("click", ()=>{
         analyzeRepo(repo, repoDiv)
@@ -150,8 +150,15 @@ function analyzeRepo(repo, repoDiv){
   fetch(`http://localhost:3000/repos/${repo.id}/analysis`)
   .then(res => res.json())
   .then(data => {
-    repo = data
-    analyzeButtonTextAndFunc(repo, repoDiv)
+    if(data.message){
+      alert(`${data.message}`)
+      if(data.message != "Something went wrong, please try again."){
+        return setTimeout(analyzeRepo(repo, repoDiv), 1000)
+      }
+    } else {
+      repo = data
+      analyzeButtonTextAndFunc(repo, repoDiv)
+    }
   })
   .catch(err => console.log(err))
 }

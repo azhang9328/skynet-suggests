@@ -2,12 +2,18 @@ class ReposController < ApplicationController
     before_action :find_repo, only: [:show, :edit, :update, :destroy, :analysis]
 
     def analysis
-        if !@repo.bundle_id
+        if !@repo.bundle_id && !@repo.analysis_status
             @repo.bundle
-            render json: {message: "bundle created"}
-        else 
-            @repo.analysis_status
-            render json: @repo
+            render json: {message: "Starting analysis."}
+        else
+            @repo.get_analysis
+            if @repo.analysis_status == "analysis in progress"
+                render json: {message: "Analysis in progress."}
+            elsif @repo.analysis_status == "analysis failed"
+                render json: {message: "Something went wrong, please try again."}
+            elsif @repo.analysis_status == nil && @repo.analyzed == true 
+                render json: @repo
+            end
         end
     end
 
@@ -42,6 +48,7 @@ class ReposController < ApplicationController
 	def find_repo
 		@repo = Repo.find(params[:id])
     end
+
     def repo_params
         params.require(:repo).permit(:nickname, :url, :analyzed, :user_id)
     end
