@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
   userLoginForm()
 })
 
+
+
 let currentUser = null
 let analyzedRepositories = document.getElementById("analyzed-repositories")
 let unanalyzedRepositories = document.getElementById("unanalyzed-repositories")
@@ -24,6 +26,7 @@ function loginUser(user){
     usersCheck(data, user)
   })
   .catch(err => console.log(err))
+  document.getElementById("initial-screen").style.display = "none"
 }
 
 function usersCheck(data, user){
@@ -55,6 +58,7 @@ function userSignUpForm(){
     event.preventDefault()
     let user = {name: event.target.name.value}
     persistUser(user)
+    loginUser(user)
   })
 }
 
@@ -135,10 +139,10 @@ function showRepo(repo) {
 function analyzeButtonTextAndFunc(repo, repoDiv){
   let button = repoDiv.getElementsByClassName("analyze-button")[0]
     if (repo.analyzed) {
-      analyzedRepositories.prependChild(repoDiv)
+      analyzedRepositories.prepend(repoDiv)
       button.textContent = "See Analysis"
   } else {
-      unanalyzedRepositories.prependChild(repoDiv)
+      unanalyzedRepositories.prepend(repoDiv)
       button.textContent = "Analyze Repo"
       button.addEventListener("click", ()=>{
         analyzeRepo(repo, repoDiv)
