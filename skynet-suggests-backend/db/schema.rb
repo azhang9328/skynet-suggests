@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2020_02_11_011711) do
     t.string "url"
     t.boolean "analyzed", default: false
     t.string "bundle_id"
+    t.string "analysis_status"
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

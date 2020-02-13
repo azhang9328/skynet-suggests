@@ -154,8 +154,15 @@ function analyzeRepo(repo, repoDiv){
   fetch(`http://localhost:3000/repos/${repo.id}/analysis`)
   .then(res => res.json())
   .then(data => {
-    repo = data
-    analyzeButtonTextAndFunc(repo, repoDiv)
+    if(data.message){
+      alert(`${data.message}`)
+      if(data.message != "Something went wrong, please try again."){
+        return setTimeout(analyzeRepo(repo, repoDiv), 1000)
+      }
+    } else {
+      repo = data
+      analyzeButtonTextAndFunc(repo, repoDiv)
+    }
   })
   .catch(err => console.log(err))
 }
