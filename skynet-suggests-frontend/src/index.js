@@ -165,7 +165,7 @@ function analyzeRepo(repo, repoDiv){
     if(data.message){
       analysisModal(data.message)
       if(data.message != "Something went wrong, please try again."){
-        return setTimeout(analyzeRepo(repo, repoDiv), 1000)
+        return setTimeout(analyzeRepo(repo, repoDiv), 2000)
       }
     } else {
       analysisModal("Analysis Complete.")
