@@ -83,6 +83,8 @@ function persistUser(user){
 }
 
 function renderRepos(user) {
+  analyzedRepositories.innerHTML = "";
+  unanalyzedRepositories.innerHTML = "";
     user.repos.forEach(repo => {
         showRepo(repo)
     });
