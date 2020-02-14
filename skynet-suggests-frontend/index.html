@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
     <div id="initial-screen" class="cover">
-        <h1> Skynet Suggests</h1>
-        <form id="user-sign-up">
-            <input type="text" name="name">
-            <input type="submit" value="Sign Up">
-          </form>
-          <form id="user-login">
-            <input id="login-input" type="text" name="name">
-            <input type="submit" value="Login">
-          </form>
-
+        <div class="opening">
+          <h1 class="title"> Skynet Suggests</h1>
+          <form class="start" id="user-sign-up">
+              <input type="text" name="name">
+              <input type="submit" value="Sign Up">
+            </form>
+            <form id="user-login">
+              <input id="login-input" type="text" name="name">
+              <input type="submit" value="Login">
+            </form>
+        </div>
     </div>
   <head>
     <meta charset="utf-8">
@@ -41,10 +42,12 @@
     <main id="main">
         <div class="row">
             <div> 
-                <div id="analyzed-repositories" class="column"> analyzed-repositories</div>
+                <h2 class="analyzed"> Analyzed Repositories</h2>
+                <div id="analyzed-repositories" class="column"> </div>
             </div>
-            <div id="unanalyzed-repositories" class="column"> unanalyzed-repositories</div>
-        </div>
+                <h2 class="unanalyzed"> Unanalyzed Repositories</h2>
+                <div id="unanalyzed-repositories" class="column"> </div>
+            </div>
     </main>
 
     
