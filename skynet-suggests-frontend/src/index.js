@@ -151,6 +151,9 @@ function analyzeButtonTextAndFunc(repo, repoDiv){
     if (repo.analyzed) {
       analyzedRepositories.prepend(repoDiv)
       button.textContent = "See Analysis"
+      button.addEventListener("click", () => {
+        seeAnalysis(repo);
+      })
   } else {
       unanalyzedRepositories.prepend(repoDiv)
       button.textContent = "Analyze Repo"
