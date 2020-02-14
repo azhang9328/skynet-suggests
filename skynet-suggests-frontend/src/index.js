@@ -83,6 +83,8 @@ function persistUser(user){
 }
 
 function renderRepos(user) {
+  analyzedRepositories.innerHTML = "";
+  unanalyzedRepositories.innerHTML = "";
     user.repos.forEach(repo => {
         showRepo(repo)
     });
@@ -149,6 +151,9 @@ function analyzeButtonTextAndFunc(repo, repoDiv){
     if (repo.analyzed) {
       analyzedRepositories.prepend(repoDiv)
       button.textContent = "See Analysis"
+      button.addEventListener("click", () => {
+        seeAnalysis(repo);
+      })
   } else {
       unanalyzedRepositories.prepend(repoDiv)
       button.textContent = "Analyze Repo"
@@ -170,6 +175,9 @@ function analyzeRepo(repo, repoDiv){
     } else {
       analysisModal("Analysis Complete.")
       repo = data
+      let userRepo = currentUser.repos.find(({id}) => id === repo.id)
+      let returnedUserRepo = Object.assign(userRepo, repo)
+      console.log(currentUser.repos)
       analyzeButtonTextAndFunc(repo, repoDiv)
     }
   })
@@ -218,6 +226,52 @@ function newRepoForm(){
     form.appendChild(input)
     form.appendChild(button)
     main.appendChild(form)
+}
+
+function seeAnalysis (repo) {
+  unanalyzedRepositories.innerHTML = ""
+  let suggestionsList = document.createElement("ul")
+  console.log(repo)
+  for(const suggestion of repo.suggestions){
+    let suggestionCard = document.createElement("div")
+    suggestionCard.setAttribute("class", "suggestion")
+
+    let fileTab = document.createElement("p")
+    fileTab.textContent = suggestion.file
+
+    let dpTab = document.createElement("p")
+
+    let severityTab = document.createElement("p")
+    severityTab.textContent = suggestion.severity
+
+    let messageTab = document.createElement("p")
+    messageTab.textContent = suggestion.message
+
+    let rowTab = document.createElement("p")
+
+    let columnTab = document.createElement("p")
+
+    suggestionCard.appendChild(fileTab)
+    suggestionCard.appendChild(severityTab)
+    suggestionCard.appendChild(messageTab)
+
+    unanalyzedRepositories.appendChild(suggestionCard)
+    // File
+    // dp id
+    // severity
+    // message
+    // row
+    // column
+  }
+  let hideButton = document.createElement("button")
+  hideButton.textContent = "Hide Analysis"
+  unanalyzedRepositories.appendChild(hideButton)
+
+  hideButton.addEventListener("click", () => {
+    console.log(currentUser.repos)
+    console.log(repo)
+    renderRepos(currentUser);
+  } )
 }
 
 function addRepository(repo) {
