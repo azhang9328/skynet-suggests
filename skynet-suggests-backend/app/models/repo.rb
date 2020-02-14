@@ -45,7 +45,7 @@ class Repo < ApplicationRecord
         message = repo_suggestions["#{matching_marker}"]["#{key_arr[1]}"]
         severity = repo_suggestions["#{matching_marker}"]["#{key_arr[2]}"]
         Suggestion.where("marker = ?", matching_marker.to_i).each do |suggestion| #find and loop over suggestions with matching marker
-          suggestion.update(dp_id: id, message: message, severity: severity)
+          suggestion.update(dp_id: id, message: message, severity: severity, marker: nil)
           #fill in other half of suggestion with data from suggestions and set marker to nil
         end
       end
