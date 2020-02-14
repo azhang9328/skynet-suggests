@@ -27,6 +27,14 @@ function loginUser(user){
   document.getElementById("initial-screen").style.display = "none"
 }
 
+function logout() {
+  currentUser = null
+  document.getElementById("initial-screen").style.display = "block"
+  analyzedRepositories.innerHTML = ""
+  unanalyzedRepositories.innerHTML = ""
+  document.getElementById("login-input").textContent = ""
+}
+
 function usersCheck(data, user){
   let h3 = document.getElementById("current-user")
   let userExists = data.find(u => {
@@ -49,6 +57,8 @@ function usersCheck(data, user){
 function displayUserName (editedUser = currentUser) {
     document.getElementById("current-user").innerText = editedUser.name
 }
+
+
 
 function userSignUpForm(){
   let signUp = document.getElementById("user-sign-up")
@@ -245,6 +255,7 @@ function deleteUser(currentUser) {
     // .then(res => {
     //     currentUser.remove()
     // })
+    logout();
 }
 
 function editRepoName (repo, value, repoDiv) {
@@ -296,6 +307,11 @@ editUserButton.addEventListener("click", () => {
     manageUserForm();
 })
 
+let logoutButton = document.getElementById("logout-button")
+logoutButton.addEventListener("click", () => {
+    logout();
+})
+
 function manageUserForm() {
     let form = document.createElement("form")
     form.innerHTML = ""
@@ -324,6 +340,8 @@ function manageUserForm() {
     deleteButton.addEventListener("click", () => {
         deleteUser(currentUser);
     })
+
+    
 
     form.appendChild(pleaseEditName)
     form.appendChild(editNameInput)
