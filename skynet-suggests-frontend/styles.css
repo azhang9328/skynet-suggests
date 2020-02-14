@@ -49,3 +49,14 @@
   /* bring your own prefixes */
   transform: translate(-50%, -50%);
 }
+
+.suggestion {
+  color: black;
+  outline: darkslategray;
+  border-style: solid;
+  border-color: midnightblue;
+  border-radius: 5px;
+
+  outline-width: 5px;
+  background-color: crimson;
+}

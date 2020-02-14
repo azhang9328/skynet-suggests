@@ -175,6 +175,9 @@ function analyzeRepo(repo, repoDiv){
     } else {
       analysisModal("Analysis Complete.")
       repo = data
+      let userRepo = currentUser.repos.find(({id}) => id === repo.id)
+      let returnedUserRepo = Object.assign(userRepo, repo)
+      console.log(currentUser.repos)
       analyzeButtonTextAndFunc(repo, repoDiv)
     }
   })
@@ -231,6 +234,7 @@ function seeAnalysis (repo) {
   console.log(repo)
   for(const suggestion of repo.suggestions){
     let suggestionCard = document.createElement("div")
+    suggestionCard.setAttribute("class", "suggestion")
 
     let fileTab = document.createElement("p")
     fileTab.textContent = suggestion.file
