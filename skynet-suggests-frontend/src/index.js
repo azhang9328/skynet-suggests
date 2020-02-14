@@ -4,8 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
   userLoginForm()
 })
 
-
-
 let currentUser = null
 let analyzedRepositories = document.getElementById("analyzed-repositories")
 let unanalyzedRepositories = document.getElementById("unanalyzed-repositories")
@@ -155,11 +153,12 @@ function analyzeRepo(repo, repoDiv){
   .then(res => res.json())
   .then(data => {
     if(data.message){
-      alert(`${data.message}`)
+      analysisModal(data.message)
       if(data.message != "Something went wrong, please try again."){
         return setTimeout(analyzeRepo(repo, repoDiv), 1000)
       }
     } else {
+      analysisModal("Analysis Complete.")
       repo = data
       analyzeButtonTextAndFunc(repo, repoDiv)
     }
@@ -331,4 +330,20 @@ function manageUserForm() {
     form.appendChild(submitButton)
     form.appendChild(deleteButton)
     document.getElementById("user-div").appendChild(form)
+}
+
+function analysisModal(message){
+  let modal = document.createElement("analysis-modal")
+  let p = document.createElement("p")
+  p.innerText = message
+  modal.style.display = "block"
+  modal.style.backgroundColor = "red"
+  modal.appendChild(p)
+  if(message == "Analysis Complete."){
+    setTimeout(()=>{analyzedRepositories.prepend(modal)}, 500)
+    setTimeout(()=>{modal.style.display = "none"}, 5000)
+  } else {
+    unanalyzedRepositories.prepend(modal)
+    setTimeout(()=>{modal.style.display = "none"}, 2000)
+  }
 }
