@@ -264,6 +264,8 @@ function seeAnalysis (repo) {
   unanalyzedRepositories.appendChild(hideButton)
 
   hideButton.addEventListener("click", () => {
+    console.log(currentUser.repos)
+    console.log(repo)
     renderRepos(currentUser);
   } )
 }
